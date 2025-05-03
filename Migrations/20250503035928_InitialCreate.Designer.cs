@@ -11,7 +11,7 @@ using PetControl.Data;
 namespace PetControl.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250503020748_InitialCreate")]
+    [Migration("20250503035928_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -75,10 +75,6 @@ namespace PetControl.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

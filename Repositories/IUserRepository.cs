@@ -7,6 +7,6 @@ namespace PetControl.Repositories
     {
         void Add(User user);
 
-        Task<User> getLoginAsync(string login);
+        Task<User> getLoginAsync(string email);
     }
 }

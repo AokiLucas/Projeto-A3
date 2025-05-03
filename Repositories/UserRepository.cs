@@ -17,10 +17,10 @@ namespace PetControl.Repositories
             _context.SaveChanges();
         }
 
-        public async Task<User> getLoginAsync(string login)
+        public async Task<User> getLoginAsync(string email)
         {
             return await _context.Set<User>()
-                                 .FirstOrDefaultAsync(u => u.Login == login)
+                                 .FirstOrDefaultAsync(u => u.Email == email)
                    ?? throw new InvalidOperationException("Usuário não encontrado.");
         }
     }

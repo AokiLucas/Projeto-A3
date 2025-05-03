@@ -15,14 +15,12 @@ namespace PetControl.Services
         public void CreateUser(User user)
         {
             user.Password = PasswordCriptografyService.GeneratePasswordHash(user.Password);
-            user.Id = Guid.NewGuid();
-
             _userRepository.Add(user);
         }
 
-        public async Task<User?> AuthenticateUserAsync(string userLogin, string userPassword)
+        public async Task<User?> AuthenticateUserAsync(string userEmail, string userPassword)
         {
-            var user = await _userRepository.getLoginAsync(userLogin);
+            var user = await _userRepository.getLoginAsync(userEmail);
 
             if (user != null && PasswordCriptografyService.ValidPassword(userPassword, user.Password))
             {
@@ -32,9 +30,9 @@ namespace PetControl.Services
             return null;
         }
 
-        public User GetUser(string login)
+        public User GetUser(string email)
         {
-            return _userRepository.getLoginAsync(login).Result;
+            return _userRepository.getLoginAsync(email).Result;
         }
 
     }

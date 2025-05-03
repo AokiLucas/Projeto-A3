@@ -1,32 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetControl.DTOs;
+using PetControl.Models;
 using PetControl.Services;
 
 namespace PetControl.Controllers
 {
-    public class LoginController : Controller
+    public class UserController : Controller
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserService _userServices;
 
-        public LoginController(ILogger<HomeController> logger, UserService userService)
+        public UserController(ILogger<HomeController> logger, UserService userService)
         {
             _logger = logger;
             _userServices = userService;
         }
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> UserLogin(string email, string password)
+        public async Task<IActionResult> UserLogin([FromBody] UserLoginDto userDto)
         {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(userDto.Email) || string.IsNullOrEmpty(userDto.Password))
             {
-                return BadRequest(new { message = "Email and password are required." });
+                return BadRequest(new { message = "Email e senha são obrigatórios." });
             }
 
-            var userLogin = await _userServices.AuthenticateUserAsync(email, password);
+            var userLogin = await _userServices.AuthenticateUserAsync(userDto.Email, userDto.Password);
 
             if (userLogin != null)
             {
@@ -37,8 +39,37 @@ namespace PetControl.Controllers
             }
             else
             {
-                return Unauthorized(new { message = "Invalid Credentials." });
+                return Unauthorized(new { message = "Credenciais inválidas." });
             }
         }
+
+
+        [HttpPost]
+        public IActionResult CreateUser([FromBody] CreateUserDto userDto)
+        {
+
+            if (userDto == null)
+            {
+                return BadRequest("User cannot be null.");
+            }
+
+
+            var user = new User(userDto.Name, userDto.Password, userDto.Email);
+
+            try
+            {
+                _userServices.CreateUser(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+            return Ok();
+
+        }
+
+
     }
 }

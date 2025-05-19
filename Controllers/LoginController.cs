@@ -5,12 +5,12 @@ using PetControl.Services;
 
 namespace PetControl.Controllers
 {
-    public class UserController : Controller
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
         private readonly UserService _userServices;
 
-        public UserController(ILogger<HomeController> logger, UserService userService)
+        public LoginController(ILogger<LoginController> logger, UserService userService)
         {
             _logger = logger;
             _userServices = userService;

@@ -1,0 +1,129 @@
+﻿@{
+    Layout = Layout;
+    ViewData["ExibirNavbar"] = false;
+    ViewData["Title"] = "Login";
+
+}
+
+<head>
+    <link href="\wwwroot\css\site.css" rel="stylesheet" />
+    <title>Login / Sign-up</title>
+</head>
+
+<main class="w-100 m-auto form-container">
+    <h3 id="formTitle" class="h3 mb-3 fw-normal">Login</h3>
+    <form id="loginForm">
+        <div class="form-floating">
+            <input type="email" class="form-control" id="email" placeholder="seuemail@email.com" />
+                <label for="email">E-mail</label>
+        </div>
+        <div class="form-floating">
+                <input type="password" class="form-control" id="password" placeholder="senha" />
+                <label for="password">Senha</label>
+        </div>
+        <button class="btn btn-primary w-100 py-2 my-2">Login</button>
+    </form>
+
+    
+    <form id="registerForm" style="display: none;">
+        <div class="form-floating">
+			<input type="text" class="form-control" id="regName" placeholder="Nome" />
+			<label for="regName">Nome</label>
+        </div>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="regEmail" placeholder="seuemail@email.com" />
+            <label for="regEmail">E-mail</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="regPassword" placeholder="senha" />
+            <label for="regPassword">Senha</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="confirmPassword" placeholder="senha" />
+            <label for="confirmPassword">Confirmar senha</label>
+        </div>
+        <button class="btn btn-primary w-100 py-2 my-2">Registrar</button>
+    </form>
+
+    <label id="lblConta" for="toggleFormBtn">Não tem conta? </label>
+    <a href="#" id="toggleFormBtn">Registrar</a>
+
+
+</main>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        let isLogin = true;
+
+        // Alterna entre login e registro
+        $('#toggleFormBtn').click(function () {
+            isLogin = !isLogin;
+            $('#loginForm').toggle();
+            $('#registerForm').toggle();
+            $('#formTitle').text(isLogin ? 'Login' : 'Registrar');
+            $('#toggleFormBtn').text(isLogin ? 'Registrar' : 'Login');
+            $('#lblConta').text(isLogin ? 'Não tem conta? ' : 'Já tem conta? ');
+        });
+
+        // Login
+        $('#loginForm').on('submit', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/Login/UserLogin',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    email: $('#email').val(),
+                    password: $('#password').val()
+                }),
+                success: function () {
+                    alert('Login bem-sucedido!');
+                    window.location.href = "/Home/Dashboard";
+                },
+                error: function (error) {
+                    alert('Credenciais inválidas!');
+                    console.log(error.responseJSON?.message);
+                }
+            });
+        });
+
+        // Registro
+        $('#registerForm').on('submit', function (e) {
+            e.preventDefault();
+
+            const password = $('#regPassword').val();
+            const confirm = $('#confirmPassword').val();
+
+            if (password !== confirm) {
+                alert("As senhas não coincidem.");
+                return;
+            }
+
+            $.ajax({
+                url: '/Login/CreateUser',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: $('#regName').val(),
+                    email: $('#regEmail').val(),
+                    password: password
+                }),
+                success: function () {
+                    alert('Registrado com sucesso! Faça login.');
+                    $('#toggleFormBtn').click(); // volta para login
+                },
+                error: function (error) {
+                    alert('Erro no registro.');
+                    console.log(error.responseJSON?.message);
+                }
+            });
+        });
+    });
+
+</script>

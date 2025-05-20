@@ -8,7 +8,7 @@ namespace PetControl.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Pet> Pets { get; set; }
-        public DbSet<VaccineRecord> VaccineRecords { get; set; }
+        public DbSet<RegistroVacina> RegistroVacinas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=petControl.db");
@@ -24,7 +24,7 @@ namespace PetControl.Data
                 .HasForeignKey(p => p.OwnerId);
 
             // 1:N entre Pet e VaccineRecord
-            modelBuilder.Entity<VaccineRecord>()
+            modelBuilder.Entity<RegistroVacina>()
                 .HasOne(v => v.Pet)
                 .WithMany(p => p.VaccineRecords)
                 .HasForeignKey(v => v.PetId);

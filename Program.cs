@@ -15,10 +15,14 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddScoped<AppDbContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<IVacinaRepository, VacinaRepository>();
 
 
 
-builder.Services.AddScoped<UserService>(); // Usar a interface IUserService  
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<PetService>();
+builder.Services.AddScoped<VacinaService>();
 
 builder.Services.AddControllersWithViews();
 

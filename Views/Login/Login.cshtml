@@ -2,128 +2,64 @@
     Layout = Layout;
     ViewData["ExibirNavbar"] = false;
     ViewData["Title"] = "Login";
-
 }
 
 <head>
-    <link href="\wwwroot\css\site.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
     <title>Login / Sign-up</title>
 </head>
 
-<main class="w-100 m-auto form-container">
-    <h3 id="formTitle" class="h3 mb-3 fw-normal">Login</h3>
-    <form id="loginForm">
-        <div class="form-floating">
-            <input type="email" class="form-control" id="email" placeholder="seuemail@email.com" />
-                <label for="email">E-mail</label>
-        </div>
-        <div class="form-floating">
-                <input type="password" class="form-control" id="password" placeholder="senha" />
-                <label for="password">Senha</label>
-        </div>
-        <button class="btn btn-primary w-100 py-2 my-2">Login</button>
-    </form>
+<h3 id="formTitle" class="h3 mb-3 fw-normal">Login</h3>
 
-    
-    <form id="registerForm" style="display: none;">
-        <div class="form-floating">
-			<input type="text" class="form-control" id="regName" placeholder="Nome" />
-			<label for="regName">Nome</label>
-        </div>
-        <div class="form-floating">
-            <input type="email" class="form-control" id="regEmail" placeholder="seuemail@email.com" />
-            <label for="regEmail">E-mail</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="regPassword" placeholder="senha" />
-            <label for="regPassword">Senha</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" class="form-control" id="confirmPassword" placeholder="senha" />
-            <label for="confirmPassword">Confirmar senha</label>
-        </div>
-        <button class="btn btn-primary w-100 py-2 my-2">Registrar</button>
-    </form>
+<!-- Login -->
+<form method="post" asp-controller="Login" asp-action="UserLogin" id="loginForm">
+    <div class="form-floating">
+        <input type="email" class="form-control" id="email" name="Email" placeholder="seuemail@email.com" required />
+        <label for="email">E-mail</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="password" name="Password" placeholder="senha" required />
+        <label for="password">Senha</label>
+    </div>
+    <button type="submit" class="btn btn-primary w-100 py-2 my-2">Login</button>
+</form>
 
-    <label id="lblConta" for="toggleFormBtn">Não tem conta? </label>
-    <a href="#" id="toggleFormBtn">Registrar</a>
+<!-- Registro -->
+<form method="post" asp-controller="Login" asp-action="CreateUser" id="registerForm" style="display: none;">
+    <div class="form-floating">
+        <input type="text" class="form-control" id="regName" name="Name" placeholder="Nome" required />
+        <label for="regName">Nome</label>
+    </div>
+    <div class="form-floating">
+        <input type="email" class="form-control" id="regEmail" name="Email" placeholder="seuemail@email.com" required />
+        <label for="regEmail">E-mail</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="regPassword" name="Password" placeholder="senha" required />
+        <label for="regPassword">Senha</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="confirmPassword" name="ConfirmPassword" placeholder="senha" required />
+        <label for="confirmPassword">Confirmar senha</label>
+    </div>
+    <button type="submit" class="btn btn-primary w-100 py-2 my-2">Registrar</button>
+</form>
 
+<label id="lblConta" for="toggleFormBtn">Não tem conta? </label>
+<a href="#" id="toggleFormBtn">Registrar</a>
 
-</main>
-
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    document.addEventListener('DOMContentLoaded', function () {
         let isLogin = true;
-
-        // Alterna entre login e registro
-        $('#toggleFormBtn').click(function () {
+        document.getElementById('toggleFormBtn').addEventListener('click', function (e) {
+            e.preventDefault();
             isLogin = !isLogin;
-            $('#loginForm').toggle();
-            $('#registerForm').toggle();
-            $('#formTitle').text(isLogin ? 'Login' : 'Registrar');
-            $('#toggleFormBtn').text(isLogin ? 'Registrar' : 'Login');
-            $('#lblConta').text(isLogin ? 'Não tem conta? ' : 'Já tem conta? ');
-        });
-
-        // Login
-        $('#loginForm').on('submit', function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                url: '/Login/UserLogin',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    email: $('#email').val(),
-                    password: $('#password').val()
-                }),
-                success: function () {
-                    alert('Login bem-sucedido!');
-                    window.location.href = "/Home/Dashboard";
-                },
-                error: function (error) {
-                    alert('Credenciais inválidas!');
-                    console.log(error.responseJSON?.message);
-                }
-            });
-        });
-
-        // Registro
-        $('#registerForm').on('submit', function (e) {
-            e.preventDefault();
-
-            const password = $('#regPassword').val();
-            const confirm = $('#confirmPassword').val();
-
-            if (password !== confirm) {
-                alert("As senhas não coincidem.");
-                return;
-            }
-
-            $.ajax({
-                url: '/Login/CreateUser',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    name: $('#regName').val(),
-                    email: $('#regEmail').val(),
-                    password: password
-                }),
-                success: function () {
-                    alert('Registrado com sucesso! Faça login.');
-                    $('#toggleFormBtn').click(); // volta para login
-                },
-                error: function (error) {
-                    alert('Erro no registro.');
-                    console.log(error.responseJSON?.message);
-                }
-            });
+            document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = isLogin ? 'none' : 'block';
+            document.getElementById('formTitle').textContent = isLogin ? 'Login' : 'Registrar';
+            document.getElementById('toggleFormBtn').textContent = isLogin ? 'Registrar' : 'Login';
+            document.getElementById('lblConta').textContent = isLogin ? 'Não tem conta? ' : 'Já tem conta? ';
         });
     });
-
 </script>

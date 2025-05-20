@@ -21,55 +21,50 @@ namespace PetControl.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> UserLogin([FromBody] UserLoginDto userDto)
+        public async Task<IActionResult> UserLogin(UserLoginDto userDto)
         {
             if (string.IsNullOrEmpty(userDto.Email) || string.IsNullOrEmpty(userDto.Password))
             {
-                return BadRequest(new { message = "Email e senha são obrigatórios." });
+                TempData["Erro"] = "Email e senha são obrigatórios.";
+                return RedirectToAction("Login");
             }
 
-            var userLogin = await _userServices.AuthenticateUserAsync(userDto.Email, userDto.Password);
+            var userLogin = await _userServices.AuthenticateUserAsync(userDto.Email.ToLower(), userDto.Password);
 
             if (userLogin != null)
             {
                 HttpContext.Session.SetString("UserId", userLogin.Id.ToString());
                 HttpContext.Session.SetString("UserEmail", userLogin.Email);
-
-                return Ok(new { message = "Login bem-sucedido!" });
+                return RedirectToAction("Index", "Home");
             }
             else
             {
-                return Unauthorized(new { message = "Credenciais inválidas." });
+                TempData["Erro"] = "Credenciais inválidas.";
+                return RedirectToAction("Login");
             }
         }
 
-
         [HttpPost]
-        public IActionResult CreateUser([FromBody] CreateUserDto userDto)
+        public IActionResult CreateUser(CreateUserDto userDto, string confirmPassword)
         {
-
-            if (userDto == null)
+            if (userDto.Password != confirmPassword)
             {
-                return BadRequest("User cannot be null.");
+                TempData["Erro"] = "As senhas não coincidem.";
+                return RedirectToAction("Login");
             }
-
-
-            var user = new User(userDto.Name, userDto.Password, userDto.Email);
 
             try
             {
+                var user = new User(userDto.Name, userDto.Password, userDto.Email);
                 _userServices.CreateUser(user);
+                TempData["Sucesso"] = "Usuário registrado com sucesso!";
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                TempData["Erro"] = ex.Message;
             }
 
-
-            return Ok();
-
+            return RedirectToAction("Login");
         }
-
-
     }
 }

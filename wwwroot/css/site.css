@@ -1,9 +1,9 @@
 html, body{
     height: 100%;
 }
-
-
-
+main.form-container {
+    padding-top: 56px; 
+}
 
 html {
   font-size: 14px;
@@ -20,12 +20,13 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -37,7 +38,60 @@ body {
   text-align: start;
 }
 
-.form-container{
-    max-width: 300px;
+.form-container {
+    max-width: 600px;
     padding: 1rem;
+    padding-bottom: 70px; 
+}
+
+.custom-navbar {
+    transition: background-color 0.3s ease;
+}
+
+[data-bs-theme="light"] .custom-navbar {
+    background-color: #5ccb5f; 
+    color: #043927;
+}
+
+[data-bs-theme="dark"] .custom-navbar {
+    background-color: #064420;
+    color: #ffffff;
+}
+
+[data-bs-theme="light"] .custom-navbar .navbar-brand,
+[data-bs-theme="light"] .custom-navbar a,
+[data-bs-theme="light"] .custom-navbar span {
+    color: #043927 !important;
+}
+
+[data-bs-theme="dark"] .custom-navbar .navbar-brand,
+[data-bs-theme="dark"] .custom-navbar a,
+[data-bs-theme="dark"] .custom-navbar span {
+    color: #ffffff !important;
+}
+
+.icon-light,
+.icon-dark {
+    display: none;
+}
+
+[data-bs-theme="light"] .icon-light {
+    display: inline;
+}
+
+[data-bs-theme="light"] .icon-dark {
+    display: none;
+}
+
+[data-bs-theme="dark"] .icon-dark {
+    display: inline;
+}
+
+[data-bs-theme="dark"] .icon-light {
+    display: none;
+}
+
+.navbar {
+    font-size: 1.2rem; /* Aumenta o tamanho da fonte geral da navbar */
+    font-weight: bold
 }

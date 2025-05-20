@@ -3,33 +3,33 @@
     public class Pet
     {
         public Guid Id { get; set; }              
-        public string Name { get; set; }         
-        public string Species { get; set; }       // Dog, Cat
-        public string Breed { get; set; }         // Breed of the pet
-        public DateTime DateOfBirth { get; set; } 
-        public string PhotoUrl { get; set; }      
+        public string Nome { get; set; }         
+        public string Especie { get; set; }       
+        public string Raca { get; set; }         
+        public DateTime DataNascimento { get; set; } 
+        public string FotoUrl { get; set; }      
         public Guid OwnerId { get; set; }
-        public User Owner { get; set; }           // Navegação para o User (Tutor)
-        public string Gender { get; set; }       
-        public decimal? Weight { get; set; }      
-        public string? Notes { get; set; }
-        public List<VaccineRecord> VaccineRecords { get; set; } = new List<VaccineRecord>();
+        public User Owner { get; set; } 
+        public char Sexo { get; set; }       
+        public decimal? Peso { get; set; }      
+        public string? Observacoes { get; set; }
+        public List<RegistroVacina> VaccineRecords { get; set; } = new List<RegistroVacina>();
 
 
-        public Pet(string name, string species, string breed, DateTime dateOfBirth, string photoUrl, 
-                    Guid ownerId, string gender, decimal? weight = null, string? notes = null)
+        public Pet(string nome, string especie, string raca, DateTime dataNascimento, string fotoUrl, 
+                    Guid ownerId, char sexo, decimal? peso = null, string? observacoes = null)
         {
             Id = Guid.NewGuid();
-            Name = name;
-            Species = species;
-            Breed = breed;
-            DateOfBirth = dateOfBirth;
-            PhotoUrl = photoUrl;
+            Nome = nome;
+            Especie = especie;
+            Raca = raca;
+            DataNascimento = dataNascimento;
+            FotoUrl = fotoUrl;
             OwnerId = ownerId;
-            Gender = gender;
-            Weight = weight;
-            Notes = notes;
-            VaccineRecords = new List<VaccineRecord>(); // 1:N
+            Sexo = sexo;
+            Peso = peso;
+            Observacoes = observacoes;
+            VaccineRecords = new List<RegistroVacina>(); // 1:N
         }
     }
 }

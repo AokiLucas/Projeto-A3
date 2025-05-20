@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PetControl.Data;
 
@@ -10,9 +11,11 @@ using PetControl.Data;
 namespace PetControl.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250519163237_ModificarBanco01")]
+    partial class ModificarBanco01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -30,10 +33,6 @@ namespace PetControl.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("FotoUrl")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -45,6 +44,10 @@ namespace PetControl.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal?>("Peso")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhotoUrl")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Raca")
@@ -59,40 +62,6 @@ namespace PetControl.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Pets");
-                });
-
-            modelBuilder.Entity("PetControl.Models.RegistroVacina", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DataAplicacao")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LoteVacinal")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NomeVacina")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("PetId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("ValidadeImunizante")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Veterinario")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PetId");
-
-                    b.ToTable("RegistroVacinas");
                 });
 
             modelBuilder.Entity("PetControl.Models.User", b =>
@@ -121,6 +90,37 @@ namespace PetControl.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PetControl.Models.VaccineRecord", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ApplicationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Batch")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("PetId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VaccineName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Veterinarian")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PetId");
+
+                    b.ToTable("VaccineRecords");
+                });
+
             modelBuilder.Entity("PetControl.Models.Pet", b =>
                 {
                     b.HasOne("PetControl.Models.User", "Owner")
@@ -132,7 +132,7 @@ namespace PetControl.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("PetControl.Models.RegistroVacina", b =>
+            modelBuilder.Entity("PetControl.Models.VaccineRecord", b =>
                 {
                     b.HasOne("PetControl.Models.Pet", "Pet")
                         .WithMany("VaccineRecords")

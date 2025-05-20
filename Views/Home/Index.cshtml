@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Pet Control";
+    var vacinas = ViewBag.TodasVacinas as List<dynamic>;
+
+}
+
+<main class="w-100 m-auto form-container">
+
+
+	@if (ViewData["Pets"] is null)
+	{
+		<label id="lblAddPet" for="toggleFormBtn">Ainda sem pets cadastrados? </label>
+		<a asp-controller="Pet" asp-action="Cadastro" id="toggleFormBtn">Cadastre aqui!</a>
+	}
+	else
+	{
+		
+        <div class="container my-5">
+    <h2 class="mb-4 text-center">Vacinas dos seus Pets</h2>
+
+    @if (vacinas == null || !vacinas.Any())
+    {
+        <div class="alert alert-info text-center" role="alert">
+            Nenhuma vacina registrada para seus pets.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Lista de Vacinas</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Pet</th>
+                                <th scope="col">Vacina</th>
+                                <th scope="col">Data de Aplicação</th>
+                                <th scope="col">Validade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var v in vacinas)
+                            {
+                                <tr>
+                                    <td>@v.PetNome</td>
+                                    <td>
+                                                <a href="@Url.Action("DetalheVacina", "Vacina", new { id = v.Id })" class="text-decoration-none">
+                                            @v.NomeVacina
+                                        </a>
+                                    </td>
+                                    <td>@v.DataAplicacao.ToShortDateString()</td>
+                                    <td>@v.ValidadeImunizante.ToShortDateString()</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+	}
+  
+
+</main>

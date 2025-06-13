@@ -1,0 +1,6 @@
+TODO
+bloquer os btns nas telas de add vacina e pet para funcionarem so quando todos os campos estiverem preenchidos
+
+opcao de excluir user e vacinas do banco de dados nas telas de home e pet
+
+retirar os alert 

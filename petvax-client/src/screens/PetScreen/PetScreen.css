@@ -1,0 +1,166 @@
+.pet-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-subtle);
+  background: var(--color-ui-light);
+}
+
+.pet-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-text-regular);
+}
+
+.pet-breed,
+.pet-birth {
+  font-size: 0.95rem;
+  color: #666;
+} 
+.pet-vaccine-card,
+.pet-history-card {
+  width: 100%;
+  margin: 0; 
+  padding: var(--spacing-md) var(--spacing-sm);
+  background: var(--color-ui-light);
+  border-radius: var(--border-radius-lg, 10px);
+  box-shadow: 0 1px 3px var(--color-shadow-light);
+  box-sizing: border-box;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.vaccine-title {
+  font-weight: bold;
+  font-size: 1rem;
+  color: var(--brand-color-main);
+}
+
+.vaccine-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--brand-color-main);
+  margin-bottom: 2px;
+}
+
+.vaccine-date {
+  font-size: 0.98rem;
+  color: var(--color-text-regular);
+  margin-bottom: 2px;
+}
+
+.vaccine-vet {
+  font-size: 0.98rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.vaccine-due {
+  color: var(--color-info);
+  font-size: 0.95rem;
+  margin-top: var(--spacing-xs, 0.2rem);
+}
+
+.vaccine-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.vaccine-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  font-size: 0.98rem;
+  color: var(--color-text-regular);
+}
+
+.vaccine-history-item:last-child {
+  border-bottom: none;
+}
+
+.history-vaccine-name {
+  font-weight: 500;
+}
+
+.history-vaccine-date {
+  color: var(--color-info);
+  font-size: 0.95rem;
+}
+
+.vaccine-list-item {
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.vaccine-list-item:last-child {
+  border-bottom: none;
+}
+
+.upcoming-vaccine-name {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: var(--brand-color-main);
+  margin-bottom: 2px;
+}
+
+.upcoming-vaccine-date {
+  font-size: 0.98em;
+  color: var(--color-text-regular);
+  margin-bottom: 2px;
+}
+
+.upcoming-vaccine-vet {
+  font-size: 0.98em;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.pet-card h1,
+.pet-card h2,
+.pet-card h3 {
+  font-size: 1.2rem;
+}
+
+.form-scroll-area {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  padding-top: 56px;
+  box-sizing: border-box;
+}
+
+.upcoming-vaccine-name-home {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-regular);
+  margin-bottom: 2px;
+  margin-top: 4px;
+  letter-spacing: 0.2px;
+}
+
+@media (max-width: 480px) {
+  .form-scroll-area {
+    padding-top: 48px; 
+  }
+}
+
+@media (max-width: 480px) {
+}
+
+@media (max-width: 600px) {
+  .home-header {
+    padding-left: 0.25rem;
+    min-height: 40px;
+  }
+}
+
+@media (min-width: 900px) {
+}

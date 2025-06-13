@@ -1,0 +1,122 @@
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.input {
+  width: 100%;
+  height: 50px;
+  background-color: var(--color-ui-light, #fff);
+  border-radius: 10px;
+  padding: 22px 100px 0 15px; 
+  font-size: 1em;
+  color: var(--color-text-regular, #333);
+  border: 1.5px solid var(--color-border-subtle, #ddd);
+  box-shadow: 0 2px 3px var(--color-shadow-light, rgba(0,0,0,0.1));
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input:focus {
+  border-color: var(--brand-color-main, #135B5A);
+  box-shadow: 0 0 0 3px rgba(19, 91, 90, 0.12);
+}
+
+.inputError {
+  border-color: var(--color-error, #dc3545) !important;
+}
+
+.inputValid {
+  border-color: #6fcf97 !important;
+}
+
+.floatingLabel {
+  position: absolute;
+  left: 15px;
+  top: 14px;
+  font-size: 1em;
+  color: #aaa;
+  pointer-events: none;
+  transition: all 0.2s;
+  background: transparent;
+  z-index: 2;
+}
+
+.input:focus + .floatingLabel,
+.input:not(:placeholder-shown) + .floatingLabel {
+  top: 2px;
+  font-size: 0.8em;
+  color: var(--brand-color-main, #135B5A);
+}
+
+.inputError:focus + .floatingLabel,
+.inputError:not(:placeholder-shown) + .floatingLabel {
+  color: var(--color-error, #dc3545);
+}
+
+.inputIconButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--brand-color-main, #135B5A);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 0;
+  outline: none;
+  z-index: 3;
+}
+
+.inputIconCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  color: #aaa;
+  background: transparent;
+  font-size: 1.1em;
+  margin-right: 4px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.inputIconCircle.valid {
+  border-color: #6fcf97;
+  color: #6fcf97;
+}
+
+.inputIconCircle.invalid {
+  border-color: var(--color-error, #dc3545);
+  color: var(--color-error, #dc3545);
+}
+
+.inputErrorMsg {
+  margin-top: 6px;
+  margin-bottom: 10px;
+  font-size: 1em;
+  color: var(--color-error, #dc3545);
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  min-height: 22px;
+}
+
+@media (max-width: 480px) {
+  .input {
+    min-height: 44px;
+    padding: 22px 70px 0 10px;
+  }
+  .inputWrapper {
+    margin-bottom: 14px;
+  }
+}

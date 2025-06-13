@@ -1,0 +1,20 @@
+.scrollView {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--spacing-xl) var(--mobile-padding-x) var(--spacing-xl) var(--mobile-padding-x);
+  box-sizing: border-box;
+  background: var(--color-background);
+}
+
+@media (max-width: 480px) {
+  .scrollView {
+    padding: 1rem 0.5rem;
+    gap: 0.5rem;
+  }
+}

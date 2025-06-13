@@ -1,0 +1,74 @@
+.button {
+  width: 100%;
+  height: 50px;
+  background-color: var(--brand-color-main);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px var(--color-shadow-light);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  padding-left: var(--spacing-sm);
+  padding-right: var(--spacing-sm);
+}
+
+.button:hover {
+  background-color: var(--brand-color-main-hover);
+  box-shadow: 0 6px 8px var(--color-shadow-light);
+}
+
+.button:active {
+  background-color: var(--brand-color-main-active);
+  box-shadow: 0 2px 3px var(--color-shadow-light);
+  transform: translateY(1px);
+}
+
+.button:disabled {
+  background-color: var(--color-disabled-grey);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.buttonText {
+  color: var(--color-text-on-brand);
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .button {
+    height: 45px;
+    border-radius: 8px;
+    min-height: 48px;
+    padding: 0 var(--spacing-xs);
+  }
+
+  .buttonText {
+    font-size: 1em;
+  }
+}
+
+.addPetBtn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--brand-color-main, #135b5a);
+  color: #fff;
+  font-size: 2rem;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-btn {
+  color: var(--brand-color-main, #135b5a);
+}

@@ -1,0 +1,53 @@
+.loginTextContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 25px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.loginText {
+  font-size: 1em;
+  color: var(--color-text-regular);
+  margin-right: 5px;
+}
+
+.loginLinkButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+}
+
+.loginLink {
+  font-size: 1em;
+  color: var(--brand-color-main);
+  font-weight: bold;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.loginLink:hover {
+  color: var(--brand-color-main-hover);
+}
+
+@media (max-width: 480px) {
+  .loginTextContainer {
+    flex-direction: column;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .loginText {
+    margin-right: 0;
+    margin-bottom: 5px;
+    font-size: 0.95em;
+  }
+
+  .loginLink {
+    font-size: 0.95em;
+  }
+}

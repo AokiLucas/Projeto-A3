@@ -1,0 +1,66 @@
+.home-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  min-height: 48px;
+  background: var(--color-ui-light, #f6fafd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0;
+  box-sizing: border-box;
+}
+
+.header-left {
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header-btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  font-size: 1.7rem;
+  color: var(--brand-color-main, #135b5a);
+  cursor: pointer;
+  padding: 0.3rem 0.7rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+  width: auto;
+  height: auto;
+  min-width: unset;
+  min-height: unset;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-context {
+  font-size: 0.95rem;
+  color: var(--color-text-regular, #333);
+  margin-left: 0.2rem;
+  font-weight: 500;
+  position: relative;
+  top: 1px;
+}
+
+.header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--color-text-regular, #333);
+  letter-spacing: 0.5px;
+  margin: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}

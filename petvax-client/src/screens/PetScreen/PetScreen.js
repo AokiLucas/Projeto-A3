@@ -8,7 +8,7 @@ import styles from "../../components/UI/Button/Button.module.css";
 
 const PetScreen = ({ pet, onBack, onAddVaccine }) => (
   <div className="app-container">
-    <Header title="Pet Details" showBack={true} onBack={onBack} />
+    <Header title="Pet Details" showBack={true} onBack={onBack} hideMenu={true} />
     <div className="form-scroll-area">
       <div className={formStyles.formContainer}>
         <PetInfo pet={pet} showExtraInfo />

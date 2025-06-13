@@ -60,5 +60,12 @@ namespace PetControl.Controllers
             _userServices.CreateUser(user);
             return Ok(new { message = "Usuário registrado com sucesso!" });
         }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Ok(new { message = "Logged out" });
+        }
     }
 }

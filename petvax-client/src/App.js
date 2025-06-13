@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RegisterUser from "./screens/RegisterScreen/RegisterScreen";
 import LoginUser from "./screens/LoginScreen/LoginScreen";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
@@ -6,7 +6,26 @@ import PetScreen from "./screens/PetScreen/PetScreen";
 import RegisterPetScreen from "./screens/RegisterPetScreen/RegisterPetScreen";
 import RegisterVaccineScreen from "./screens/RegisterVaccine/RegisterVaccine";
 
+const getSystemDarkMode = () =>
+  window.matchMedia &&
+  window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 const App = () => {
+  // Use system preference for initial value
+  const [darkMode, setDarkMode] = useState(getSystemDarkMode());
+
+  useEffect(() => {
+    document.body.setAttribute("data-theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
+  // Listen for system color scheme changes
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const listener = (e) => setDarkMode(e.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, []);
+
   const [screen, setScreen] = useState("login");
   const [pets, setPets] = useState([]);
   const [selectedPet, setSelectedPet] = useState(null);
@@ -92,6 +111,15 @@ const App = () => {
     setScreen("register-vaccine");
   };
 
+  const handleLogout = async () => {
+    // Optional: Call backend to clear session
+    await fetch("/api/Auth/logout", { method: "POST", credentials: "include" }).catch(() => {});
+    setUser(null);
+    setScreen("login");
+  };
+
+  const handleToggleDarkMode = () => setDarkMode((v) => !v);
+
   if (screen === "login") {
     return (
       <LoginUser
@@ -113,7 +141,10 @@ const App = () => {
       <HomeScreen
         pets={pets}
         onPetClick={handlePetClick}
-        onAddPet={handleAddPetClick} 
+        onAddPet={handleAddPetClick}
+        onLogout={handleLogout}
+        darkMode={darkMode}
+        onToggleDarkMode={handleToggleDarkMode}
       />
     );
   }

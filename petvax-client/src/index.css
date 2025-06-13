@@ -151,3 +151,29 @@ img {
   display: block;
 }
 
+[data-theme="dark"] {
+  --brand-color-main: #1bb1a5;
+  --brand-color-main-hover: #159488;
+  --brand-color-main-active: #0e6d65;
+
+  --color-text-regular: #f6fafd;
+  --color-text-on-brand: #fff;
+  --color-ui-light: #23272f;
+  --color-background: #181a20;
+  --color-border-subtle: #333;
+
+  --color-disabled-grey: #444;
+  --color-shadow-light: rgba(0,0,0,0.5);
+  --color-shadow-medium: rgba(0,0,0,0.7);
+  --color-shadow-strong: rgba(0,0,0,0.9);
+
+  --color-error: #ff6b81;
+  --color-error-bg: #2d1a1a;
+  --color-warning: #ffe066;
+  --color-warning-bg: #2d2a1a;
+  --color-success: #51cf66;
+  --color-success-bg: #1a2d1a;
+  --color-info: #63e6be;
+  --color-info-bg: #1a2d2d;
+}
+

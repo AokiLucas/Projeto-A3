@@ -50,7 +50,12 @@ const RegisterPetScreen = ({ onBack, onRegister }) => {
 
   return (
     <div className="app-container">
-      <Header title="Cadastrar Pet" showBack={true} onBack={onBack} />
+      <Header
+        title="Cadastrar Pet"
+        showBack={true}
+        onBack={onBack}
+        hideMenu={true}
+      />
       <div className="form-scroll-area">
         <form className={classesForm.formContainer} onSubmit={handleSubmit}>
           <div className={classesInput.inputWrapper}>
@@ -191,7 +196,11 @@ const RegisterPetScreen = ({ onBack, onRegister }) => {
               type="button"
               className={classesButton.button}
               onClick={() => document.getElementById("avatar-input").click()}
-              style={{ marginBottom: 8, padding: "2px 8px", fontSize: "0.75rem" }}
+              style={{
+                marginBottom: 8,
+                padding: "2px 8px",
+                fontSize: "0.75rem",
+              }}
             >
               <span className={classesButton.buttonText}>Escolher arquivo</span>
             </button>

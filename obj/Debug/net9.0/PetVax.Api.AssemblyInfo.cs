@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PetVax.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb7104b2e111b3dc4336e10cde23c3c4fcb81ad9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+898a8b15666bb8e06a169dd89ffab1be359359db")]
 [assembly: System.Reflection.AssemblyProductAttribute("PetVax.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PetVax.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

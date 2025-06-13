@@ -6,9 +6,16 @@ import buttonStyles from "../../components/UI/Button/Button.module.css";
 import formStyles from "../../components/UI/Form/Form.module.css";
 import "./HomeScreen.css";
 
-const HomeScreen = ({ pets, onPetClick, onAddPet }) => (
+const HomeScreen = ({ pets, onPetClick, onAddPet, onLogout, darkMode, onToggleDarkMode }) => (
   <div className="app-container">
-    <Header title="Pets" showBack={false} />
+    <Header
+      title="Pets"
+      showBack={false}
+      onLogout={onLogout}
+      darkMode={darkMode}
+      onToggleDarkMode={onToggleDarkMode}
+      hideMenu={false} 
+    />
     <div className="form-scroll-area">
       <div className="home-content">
         {pets.map((pet) => (

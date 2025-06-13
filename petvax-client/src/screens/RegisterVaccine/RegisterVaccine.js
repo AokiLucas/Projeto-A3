@@ -37,7 +37,12 @@ const RegisterVaccineScreen = ({ onBack, onRegister }) => {
 
   return (
     <div className="app-container">
-      <Header title="Cadastrar Vacina" showBack={true} onBack={onBack} />
+      <Header
+        title="Cadastrar Vacina"
+        showBack={true}
+        onBack={onBack}
+        hideMenu={true}
+      />
       <div className="form-scroll-area">
         <form className={classesForm.formContainer} onSubmit={handleSubmit}>
           <div className={classesInput.inputWrapper}>

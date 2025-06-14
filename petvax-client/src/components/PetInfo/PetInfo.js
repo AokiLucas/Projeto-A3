@@ -1,6 +1,16 @@
 import React from "react";
 import styles from "./PetInfo.module.css";
 
+function formatDateBR(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d)) return dateStr;
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
 const PetInfo = ({ pet, showExtraInfo }) => {
   if (!pet) return null;
 
@@ -16,7 +26,9 @@ const PetInfo = ({ pet, showExtraInfo }) => {
           </div>
           <div className={styles["pet-details"]}>
             <span className={styles["pet-gender"]}>{pet.gender}</span> -{" "}
-            <span className={styles["pet-birthday"]}>{pet.birthday}</span>
+            <span className={styles["pet-birthday"]}>
+              {formatDateBR(pet.birthday)}
+            </span>
           </div>
           {showExtraInfo && (
             <>

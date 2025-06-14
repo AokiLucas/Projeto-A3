@@ -34,6 +34,7 @@ namespace PetControl.Repositories
         public async Task<Pet> GetPetAsync(Guid petId)
         {
             return await _context.Pets
+                .Include(p => p.VaccineRecords)
                 .FirstOrDefaultAsync(p => p.Id == petId)
                 ?? throw new InvalidOperationException("Pet não encontrado.");
         }

@@ -32,21 +32,35 @@ const RegisterPetScreen = ({ onBack, onRegister }) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const pet = {
-      Nome: name,
-      Especie: race,
-      Raca: breed,
-      DataNascimento: birthday,
-      Sexo: gender === "Male" ? "M" : "F",
-      Peso: weight ? parseFloat(weight) : null,
-      Observacoes: notes,
-      FotoUrl: preview || "",
-    };
+    if (!name || !race || !breed || !birthday || !gender || !weight) {
+      alert("Preencha todos os campos obrigatórios.");
+      setIsLoading(false);
+      return;
+    }
 
-    if (onRegister) await onRegister(pet);
+    const pet = {
+      name,
+      race,
+      breed,
+      birthday,
+      gender,
+      weight: weight ? parseFloat(weight) : null,
+      notes,
+      avatar: preview || "",
+      vacinas: [],
+    };
+    if (onRegister) await onRegister({ petDto: pet });
 
     setIsLoading(false);
   };
+
+  const isPetFormValid =
+    name.trim() &&
+    race.trim() &&
+    breed.trim() &&
+    birthday &&
+    gender &&
+    weight;
 
   return (
     <div className="app-container">
@@ -217,7 +231,7 @@ const RegisterPetScreen = ({ onBack, onRegister }) => {
           <button
             type="submit"
             className={classesButton.button}
-            disabled={isLoading}
+            disabled={!isPetFormValid || isLoading}
           >
             {isLoading ? (
               "Cadastrando..."
@@ -230,5 +244,19 @@ const RegisterPetScreen = ({ onBack, onRegister }) => {
     </div>
   );
 };
+
+function toISODate(dateStr) {
+  if (!dateStr) return null;
+  // If already ISO, return as is
+  if (dateStr.includes("T")) return dateStr;
+  // If format is dd/MM/yyyy, convert to yyyy-MM-dd
+  if (dateStr.includes("/")) {
+    const [day, month, year] = dateStr.split("/");
+    return new Date(`${year}-${month}-${day}T00:00:00`).toISOString();
+  }
+  // If format is yyyy-MM-dd, convert directly
+  if (dateStr.includes("-")) return new Date(dateStr).toISOString();
+  return null;
+}
 
 export default RegisterPetScreen;

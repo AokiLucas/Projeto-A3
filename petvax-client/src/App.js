@@ -5,13 +5,18 @@ import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import PetScreen from "./screens/PetScreen/PetScreen";
 import RegisterPetScreen from "./screens/RegisterPetScreen/RegisterPetScreen";
 import RegisterVaccineScreen from "./screens/RegisterVaccine/RegisterVaccine";
+import EditPetScreen from "./screens/EditPetScreen/EditPetScreen";
 
 const getSystemDarkMode = () =>
   window.matchMedia &&
   window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 const App = () => {
-  // Use system preference for initial value
+  const [screen, setScreen] = useState("login");
+  const [pets, setPets] = useState([]);
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [user, setUser] = useState(null);
+  const [vaccinePet, setVaccinePet] = useState(null);
   const [darkMode, setDarkMode] = useState(getSystemDarkMode());
 
   useEffect(() => {
@@ -26,12 +31,6 @@ const App = () => {
     return () => media.removeEventListener("change", listener);
   }, []);
 
-  const [screen, setScreen] = useState("login");
-  const [pets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(null);
-  const [user, setUser] = useState(null);
-  const [vaccinePet, setVaccinePet] = useState(null);
-
   // Fetch pets for the logged-in user
   const fetchPets = async () => {
     const response = await fetch("/api/pet/with-vaccines", {
@@ -45,7 +44,9 @@ const App = () => {
         name: pet.nome,
         race: pet.especie,
         breed: pet.raca,
-        birthday: pet.dataNascimento?.split("T")[0] || "",
+        birthday: pet.dataNascimento
+          ? pet.dataNascimento.split("/").reverse().join("-")
+          : "",
         gender: pet.sexo,
         weight: pet.peso,
         notes: pet.observacoes,
@@ -72,12 +73,32 @@ const App = () => {
     setScreen("pet");
   };
 
-  const handleRegisterPet = async (pet) => {
+  const handleRegisterPet = async ({ petDto }) => {
+    // Map frontend fields to backend fields
+    const petDtoMapped = {
+      Nome: petDto.name,
+      Especie: petDto.race,
+      Raca: petDto.breed,
+      DataNascimento: petDto.birthday ? new Date(petDto.birthday).toISOString() : null,
+      Sexo: petDto.gender === "Macho" ? "M" : "F",
+      Peso: petDto.weight,
+      Observacoes: petDto.notes,
+      FotoUrl: petDto.avatar,
+      Vacinas: (petDto.vacinas || []).map(v => ({
+        Id: v.id,
+        NomeVacina: v.name,
+        DataAplicacao: v.applicationDate ? new Date(v.applicationDate).toISOString() : null,
+        LoteVacinal: v.lot,
+        ValidadeImunizante: v.expireDate ? new Date(v.expireDate).toISOString() : null,
+        Veterinario: v.veterinario,
+      })),
+    };
+  
     const response = await fetch("/api/pet", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify(pet),
+      body: JSON.stringify(petDtoMapped),
     });
     if (response.ok) {
       fetchPets(); 
@@ -105,6 +126,19 @@ const App = () => {
     }
   };
 
+  const handleEditPetSave = async ({ petDto }) => {
+    await fetch(`/api/pet/${petDto.Id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(petDto),
+    });
+    const updatedPets = await fetchPets();
+    // Find and set the updated pet
+    setSelectedPet(updatedPets.find((p) => p.id === petDto.Id));
+    setScreen("pet");
+  };
+
   const handleAddPetClick = () => setScreen("register-pet");
   const handleAddVaccineClick = (pet) => {
     setVaccinePet(pet);
@@ -119,6 +153,20 @@ const App = () => {
   };
 
   const handleToggleDarkMode = () => setDarkMode((v) => !v);
+
+  const handleDeletePet = async (pet) => {
+    if (!window.confirm("Deseja realmente excluir este pet?")) return;
+    const response = await fetch(`/api/pet/${pet.id}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (response.ok) {
+      await fetchPets(); // Refresh the pet list
+      setScreen("home"); // Go back to home or wherever you want
+    } else {
+      alert("Erro ao excluir pet.");
+    }
+  };
 
   if (screen === "login") {
     return (
@@ -154,6 +202,8 @@ const App = () => {
         pet={selectedPet}
         onBack={() => setScreen("home")}
         onAddVaccine={handleAddVaccineClick}
+        onEditPet={() => setScreen("edit-pet")}
+        onDeletePet={handleDeletePet} // <-- Add this line
       />
     );
   }
@@ -174,6 +224,15 @@ const App = () => {
         }}
         onRegister={handleRegisterVaccine}
         pet={vaccinePet}
+      />
+    );
+  }
+  if (screen === "edit-pet" && selectedPet) {
+    return (
+      <EditPetScreen
+        pet={selectedPet}
+        onBack={() => setScreen("pet")}
+        onSave={handleEditPetSave}
       />
     );
   }

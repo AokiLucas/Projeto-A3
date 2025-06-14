@@ -35,6 +35,13 @@ const RegisterVaccineScreen = ({ onBack, onRegister }) => {
     setIsLoading(false);
   };
 
+  const isVaccineFormValid =
+    lot.trim() &&
+    name.trim() &&
+    applicationDate &&
+    expireDate &&
+    veterinario.trim();
+
   return (
     <div className="app-container">
       <Header
@@ -130,7 +137,7 @@ const RegisterVaccineScreen = ({ onBack, onRegister }) => {
           <button
             type="submit"
             className={classesButton.button}
-            disabled={isLoading}
+            disabled={!isVaccineFormValid || isLoading}
           >
             {isLoading ? (
               "Cadastrando..."

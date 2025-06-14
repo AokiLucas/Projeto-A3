@@ -177,3 +177,42 @@ img {
   --color-info-bg: #1a2d2d;
 }
 
+/* Fix Chrome autocomplete background for dark mode */
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-ui-light) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-ui-light) inset !important;
+  -webkit-text-fill-color: var(--color-text-regular) !important;
+  color: var(--color-text-regular) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+[data-theme="dark"] input:-webkit-autofill,
+[data-theme="dark"] input:-webkit-autofill:focus,
+[data-theme="dark"] input:-webkit-autofill:hover,
+[data-theme="dark"] input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-ui-light) inset !important;
+  box-shadow: 0 0 0 1000px var(--color-ui-light) inset !important;
+  -webkit-text-fill-color: var(--color-text-regular) !important;
+  color: var(--color-text-regular) !important;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+}
+
+.home-content .formContainer:first-child {
+  margin-top: 56px; /* Match your header height */
+}
+
+@media (max-width: 480px) {
+  .home-content .formContainer:first-child {
+    margin-top: 48px;
+  }
+}
+

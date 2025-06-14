@@ -4,6 +4,7 @@ using PetControl.Services;
 using PetControl.DTOs;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -160,6 +161,71 @@ public class PetController : ControllerBase
         catch (Exception ex)
         {
             Console.WriteLine("Erro ao registrar vacina: " + ex.ToString());
+            return StatusCode(500, "Erro interno: " + ex.Message);
+        }
+    }
+
+    [HttpPut("{petId}")]
+    public async Task<IActionResult> UpdatePetWithVaccines(Guid petId, [FromBody] PetWithVaccinesDto petDto)
+    {
+        try
+        {
+            var userIdStr = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdStr) || !Guid.TryParse(userIdStr, out var userId))
+                return Unauthorized();
+
+            var pet = await _petService.GetPet(petId);
+            if (pet == null) return NotFound();
+
+            // Update pet fields
+            pet.Nome = petDto.Nome;
+            pet.Especie = petDto.Especie;
+            pet.Raca = petDto.Raca;
+            pet.DataNascimento = petDto.DataNascimento;
+            pet.FotoUrl = petDto.FotoUrl;
+            pet.Sexo = petDto.Sexo;
+            pet.Peso = petDto.Peso;
+            pet.Observacoes = petDto.Observacoes;
+
+            // --- Vaccine deletion logic ONLY ---
+            var newVaccineIds = petDto.Vacinas.Select(v => v.Id).ToHashSet();
+            var oldVaccineIds = pet.VaccineRecords.Select(v => v.Id).ToList();
+
+            // Find vaccines to delete
+            var vaccinesToDelete = oldVaccineIds.Where(id => !newVaccineIds.Contains(id)).ToList();
+
+            // Delete from DB and from pet's list
+            foreach (var id in vaccinesToDelete)
+            {
+                _vacinaService.DeleteVacina(id);
+            }
+            pet.VaccineRecords = pet.VaccineRecords.Where(v => newVaccineIds.Contains(v.Id)).ToList();
+
+            _petService.UpdatePet(pet);
+
+            return Ok(new { message = "Pet atualizado com sucesso!" });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Erro ao atualizar pet: " + ex.ToString());
+            return StatusCode(500, "Erro interno: " + ex.Message);
+        }
+    }
+
+    [HttpDelete("{petId}")]
+    public async Task<IActionResult> DeletePet(Guid petId)
+    {
+        try
+        {
+            var pet = await _petService.GetPet(petId);
+            if (pet == null) return NotFound();
+
+            _petService.DeletePet(petId);
+            return Ok(new { message = "Pet excluído com sucesso!" });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Erro ao excluir pet: " + ex.ToString());
             return StatusCode(500, "Erro interno: " + ex.Message);
         }
     }
